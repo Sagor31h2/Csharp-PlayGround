@@ -9,8 +9,7 @@ namespace Mosh_example
     }
     public class VideoEncoder
     {
-        public delegate void VideoEventHandler(object source, VideoEventArgs videoEventArgs);
-        public event VideoEventHandler Videoencoded;
+       public event EventHandler<VideoEventArgs> Videoencoded;
         public void Encode(Video video)
         {
             Console.WriteLine("encoding video");
