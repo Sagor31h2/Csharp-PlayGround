@@ -6,7 +6,12 @@ namespace Mosh_Example
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(square(5));
+        }
+
+       static int  square(int v)
+        {
+            return v*v;
         }
     }
 }
