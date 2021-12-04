@@ -6,12 +6,17 @@ namespace Mosh_Example
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(square(5));
-        }
+            var book=new BookRepository().GetBooks();
 
-       static int  square(int v)
-        {
-            return v*v;
+            var search = book.FindAll(book => book.Price <=10);
+
+            foreach(var item in search)
+            {
+                Console.WriteLine(item.Title+" "+ item.Price);
+            }
+            
+
+
         }
     }
 }
