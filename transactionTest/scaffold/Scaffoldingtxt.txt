@@ -1,0 +1,7 @@
+﻿
+
+"DefaultConnection": "Server=localdb;Database=61773502;Trusted_Connection=True;MultipleActiveResultSets=true"
+
+scaffold-DbContext "Data Source=DESKTOP-O2H5BGS\SQLEXPRESS;Database=GEODB; TrustServerCertificate=False;ApplicationIntent=ReadWrite;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Data/Entity" -ContextDir "Data" -Context "GeoDbContext" -t -f
+
+Scaffold-DbContext "Server=DESKTOP-O2H5BGS\SQLEXPRESS;Trusted_Connection=True; TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -outputdir models
