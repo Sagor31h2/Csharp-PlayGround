@@ -10,6 +10,8 @@ builder.Services.AddDbContext<GeodbContext>(options =>
                                         builder.Configuration.GetConnectionString("default")));
 builder.Services.AddTransient<ICountryService, CountryService>();
 builder.Services.AddTransient<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IGeoTransactionService, GeoTransactionService>();
+
 
 
 // Add services to the container.
