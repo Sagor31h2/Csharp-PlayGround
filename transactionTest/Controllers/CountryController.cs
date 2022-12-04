@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoFilterer.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using transactionTest.models;
 using transactionTest.services.Icountry;
 using transactionTest.VM;
 
@@ -12,21 +15,24 @@ namespace transactionTest.Controllers
         private readonly ICountryService _countryService;
         private readonly ITransactionService _transactionService;
         private readonly IGeoTransactionService _geoTransactionService;
+        private readonly GeodbContext _context;
 
-        public CountryController(ICountryService countryService, ITransactionService transactionService, IGeoTransactionService geoTransactionService)
+        public CountryController(ICountryService countryService, ITransactionService transactionService,
+            IGeoTransactionService geoTransactionService, GeodbContext context)
         {
             _countryService = countryService;
             _transactionService = transactionService;
             _geoTransactionService = geoTransactionService;
+            _context = context;
         }
 
         [HttpPost("postCountry")]
         public async Task<IActionResult> PostCountry(CountryDivisionVM model)
         {
             IDbContextTransaction geoTransaction = await _transactionService.GetGeoDbTransaction();
-            int id = 0;
+            int id = 1;
 
-            int rollbackStage = 1;
+            int rollbackStage = 0;
 
 
             await _countryService.saveCountry(model.country);
@@ -51,10 +57,10 @@ namespace transactionTest.Controllers
                 await _transactionService.CommitAsync(geoTransaction);
 
             }
-            else
-            {
-                await _transactionService.RollBackAsync(geoTransaction);
-            }
+            //else
+            //{
+            //    await _transactionService.RollBackAsync(geoTransaction);
+            //}
             return Ok();
 
         }
@@ -64,7 +70,7 @@ namespace transactionTest.Controllers
         public async Task<IActionResult> PostCountryUseGeoTransction(CountryDivisionVM model)
         {
             await _geoTransactionService.BeginTransactionAsync();
-            int id = 0;
+            int id = 1;
 
             int rollbackStage = 0;
 
@@ -98,6 +104,21 @@ namespace transactionTest.Controllers
 
             return Ok();
 
+        }
+
+        //try linq sql
+        //[HttpGet]
+        //public async Task<IActionResult> LinqSql()
+        //{
+        //    // var res = await _context.Countries.FromSql($"select * from geo.country").ToListAsync();
+        //    //  var res = _context.Database.SqlQueryRaw<Country>($"select * from geo.country");
+        //    return Ok(res);
+        //}
+
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetCountries([FromQuery] CountryFilterDto fil)
+        {
+            return Ok(await _context.Countries.ApplyFilter(fil).AsQueryable().ToListAsync());
         }
 
     }
