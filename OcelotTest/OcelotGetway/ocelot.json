@@ -1,0 +1,31 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:7003"
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/GetEmployee",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/Employee/GetEmployee",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/GetManagement",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/Management/GetManagement",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7002
+        }
+      ]
+    }
+  ]
+}
