@@ -13,7 +13,7 @@ namespace MqttPublisher
 
             var options = new MqttClientOptionsBuilder()
                                .WithClientId(Guid.NewGuid().ToString())
-                               .WithTcpServer("broker.emqx.io", 1883)
+                               .WithTcpServer("localhost", 1883)
                                .WithCleanSession(true)
                                .Build();
 
